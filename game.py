@@ -20,8 +20,8 @@ running = True
 
 # Moving
 position = {'x': 75, 'y': 55}
-x_step = 0.2
-y_step = 0.25
+x_step = 0.05
+y_step = 0.02
 
 def set_x_position(value):
     position['x'] = value
@@ -39,9 +39,27 @@ DOWN_THRESHOLD = 400
 
 PLAYER_WIDTH = 20
 
+squares = []
+SQUARE_QUANTITY = 15
+
+def add_square(new_x_position, new_y_position):
+    squares.append({'position': {'x': new_x_position, 'y': new_y_position}})
+    if len(squares) > SQUARE_QUANTITY:
+        squares.pop(0)
+
+iteration = 0
 while running:
+    iteration += 1
     # Drawing whole canvas
     pygame.draw.rect(screen, BLACK, (0, 0, 400, 400))
+    print(f"{squares}")
+
+    for square in squares:
+        pygame.draw.rect(screen, 
+                         GREEN,
+                         (square['position']['x'], square['position']['y'], 
+                         PLAYER_WIDTH, PLAYER_WIDTH))
+
 
     horizontal_step = x_step if going_right else -x_step
     vertical_step = y_step if going_down else -y_step
@@ -72,6 +90,9 @@ while running:
 
     set_x_position(new_x_position)
     set_y_position(new_y_position)
+
+    if iteration % 5 == 0:
+        add_square(new_x_position, new_y_position)
 
     # Drawing
     pygame.draw.rect(screen, GREEN, (position['x'] - PLAYER_WIDTH, position['y'] - PLAYER_WIDTH, PLAYER_WIDTH, PLAYER_WIDTH))
