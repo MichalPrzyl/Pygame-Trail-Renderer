@@ -20,8 +20,8 @@ running = True
 
 # Moving
 position = {'x': 75, 'y': 55}
-x_step = 0.05
-y_step = 0.02
+x_step = 0.09
+y_step = 0.06
 
 def set_x_position(value):
     position['x'] = value
@@ -40,7 +40,7 @@ DOWN_THRESHOLD = 400
 PLAYER_WIDTH = 20
 
 squares = []
-SQUARE_QUANTITY = 15
+SQUARE_QUANTITY = 150
 
 def add_square(new_x_position, new_y_position):
     squares.append({'position': {'x': new_x_position, 'y': new_y_position}})
