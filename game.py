@@ -52,27 +52,12 @@ while running:
     iteration += 1
     # Drawing whole canvas
     pygame.draw.rect(screen, BLACK, (0, 0, 400, 400))
-    print(f"{squares}")
-
-    for square in squares:
-        pygame.draw.rect(screen, 
-                         GREEN,
-                         (square['position']['x'], square['position']['y'], 
-                         PLAYER_WIDTH, PLAYER_WIDTH))
-
 
     horizontal_step = x_step if going_right else -x_step
     vertical_step = y_step if going_down else -y_step
 
-    # print(f"horizontal_step: {horizontal_step}")
-    # Changing position
     new_x_position = position['x'] + horizontal_step
     new_y_position = position['y'] + vertical_step
-
-    # Changing X direction
-    # print(f"new_x_position: {new_x_position}")
-    #
-    # print(f"position['x']: {position['x']} - RIGHT_THRESHOLD: {RIGHT_THRESHOLD}")
 
     if position['x'] > RIGHT_THRESHOLD:
         going_right = False
@@ -83,18 +68,22 @@ while running:
         going_down = False
     if position['y'] < UP_THRESHOLD + PLAYER_WIDTH:
         going_down = True
-    # # Changing Y direction
-    # print(f"new_y_position: {new_y_position}")
-    # if new_y_position > DOWN_THRESHOLD or new_y_position < UP_THRESHOLD:
-    #     going_down = not going_down
+
+    if iteration % 60 == 0:
+        add_square(new_x_position, new_y_position)
 
     set_x_position(new_x_position)
     set_y_position(new_y_position)
 
-    if iteration % 5 == 0:
-        add_square(new_x_position, new_y_position)
+    # Drawing trail
+    for square in squares:
+        pygame.draw.rect(screen, 
+                         BLUE,
+                         (square['position']['x'] - PLAYER_WIDTH,
+                          square['position']['y'] - PLAYER_WIDTH, 
+                         PLAYER_WIDTH, PLAYER_WIDTH))
 
-    # Drawing
+    # Drawing player
     pygame.draw.rect(screen, GREEN, (position['x'] - PLAYER_WIDTH, position['y'] - PLAYER_WIDTH, PLAYER_WIDTH, PLAYER_WIDTH))
 
     #1 Process input/events
