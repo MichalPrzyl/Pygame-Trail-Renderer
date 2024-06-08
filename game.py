@@ -19,8 +19,9 @@ clock = pygame.time.Clock()     ## For syncing the FPS
 running = True
 
 # Moving
-position = {'x': 5, 'y': 55}
-step = 0.1
+position = {'x': 75, 'y': 55}
+x_step = 0.2
+y_step = 0.25
 
 def set_x_position(value):
     position['x'] = value
@@ -28,43 +29,49 @@ def set_x_position(value):
 def set_y_position(value):
     position['y'] = value
 
-going_rigt = True
+going_right = True
 going_down = True
 
 LEFT_THRESHOLD = 0
-RIGHT_THRESHOLD = 200
-UP_THRESHOLD = 100 
-DOWN_THRESHOLD = 200
+RIGHT_THRESHOLD = 400
+UP_THRESHOLD = 0 
+DOWN_THRESHOLD = 400
 
 PLAYER_WIDTH = 20
 
 while running:
-
     # Drawing whole canvas
     pygame.draw.rect(screen, BLACK, (0, 0, 400, 400))
 
-    horizontal_step = step if going_rigt else -step
-    vertical_step = step if going_down else -step
+    horizontal_step = x_step if going_right else -x_step
+    vertical_step = y_step if going_down else -y_step
 
+    # print(f"horizontal_step: {horizontal_step}")
     # Changing position
     new_x_position = position['x'] + horizontal_step
     new_y_position = position['y'] + vertical_step
 
     # Changing X direction
     # print(f"new_x_position: {new_x_position}")
-    if new_x_position > RIGHT_THRESHOLD or new_x_position < LEFT_THRESHOLD:
-        print(f"CHECK - 1")
-        going_right = not going_rigt
-    else:
-        print(f"check - 2")
+    #
+    # print(f"position['x']: {position['x']} - RIGHT_THRESHOLD: {RIGHT_THRESHOLD}")
 
+    if position['x'] > RIGHT_THRESHOLD:
+        going_right = False
+    if position['x'] < LEFT_THRESHOLD + PLAYER_WIDTH:
+        going_right = True
+
+    if position['y'] > DOWN_THRESHOLD:
+        going_down = False
+    if position['y'] < UP_THRESHOLD + PLAYER_WIDTH:
+        going_down = True
     # # Changing Y direction
     # print(f"new_y_position: {new_y_position}")
     # if new_y_position > DOWN_THRESHOLD or new_y_position < UP_THRESHOLD:
     #     going_down = not going_down
 
     set_x_position(new_x_position)
-    # set_y_position(new_y_position)
+    set_y_position(new_y_position)
 
     # Drawing
     pygame.draw.rect(screen, GREEN, (position['x'] - PLAYER_WIDTH, position['y'] - PLAYER_WIDTH, PLAYER_WIDTH, PLAYER_WIDTH))
